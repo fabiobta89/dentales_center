@@ -6,20 +6,20 @@
   --foreground: #171717;
 }
 
-/* @theme {
+@theme {
   --color-gold: rgba(175, 128, 90, 1);
   --color-gold-dark: rgba(94, 75, 66, 1);
   --color-gold-light: rgba(246, 236, 221, 1);
   --color-gold-extralight: rgba(227, 220, 210, 1);
   
-} */
+}
 
-/* @theme inline {
+@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-} */
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
