@@ -343,7 +343,7 @@ export default function Home() {
                   />
               </div>
               <div className='flex items-center lg:items-start'>
-                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold p-4 mr-2'>1</span>
+                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold mr-2'>1</span>
                 <h4 className='font-regular text-base'>Agenda tu cita de valoración</h4>
               </div>
             </div>
@@ -358,7 +358,7 @@ export default function Home() {
                   />
               </div>
               <div className='flex items-center lg:items-start'>
-                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold p-4 mr-2'>2</span>
+                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold mr-2'>2</span>
                 <h4 className='font-regular text-base'>Recibe tu diagnóstico y plan personalizado</h4>
               </div>
             </div>
@@ -373,7 +373,7 @@ export default function Home() {
                   />
               </div>
               <div className='flex items-center lg:items-start'>
-                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold p-4 mr-2'>3</span>
+                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold mr-2'>3</span>
                 <h4 className='font-regular text-base'>Inicia tu tratamiento con especialistas certificados</h4>
               </div>
             </div>
@@ -388,7 +388,7 @@ export default function Home() {
                   />
               </div>
               <div className='flex items-center lg:items-start'>
-                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold p-4 mr-2'>4</span>
+                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold mr-2'>4</span>
                 <h4 className='font-regular text-base'>Resultados que te harán sonreír</h4>
               </div>
             </div>
