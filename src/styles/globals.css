@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  /* --background: #ffffff; */
+  --background: rgba(250, 247, 245, 1);
   --foreground: #171717;
+}
+
+@theme {
+  --color-gold: rgba(175, 128, 90, 1);
+  --color-gold-dark: rgba(94, 75, 66, 1);
+  --color-gold-light: rgba(246, 236, 221, 1);
+  --color-gold-extralight: rgba(227, 220, 210, 1);
+  
 }
 
 @theme inline {
