@@ -8,6 +8,7 @@ import mouth_image from '@/images/mouth.png';
 import team_image from '@/images/team.png';
 import icon_image from '@/images/icon@2x.png'; 
 import customer_image from '@/images/customer.png';
+import doctor_image from '@/images/doctor.png';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from "yup";
 import { BsFacebook, BsInstagram, BsTiktok } from "react-icons/bs";
@@ -329,6 +330,70 @@ export default function Home() {
       <section className='bg-white py-24'>
         <div className='w-full mx-auto flex-column max-w-7xl px-4'>
           <h2 className='text-5xl text-center font-semibold text-gold mb-4'>Así de fácil es transformar tu sonrisa</h2>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-4 my-12'>
+            <div className='flex-column'>
+              <div className='flex-column relative h-[212px] mb-4'>
+                <Image
+                    className="rounded-lg object-cover"
+                    src={doctor_image}
+                    alt="Dentales Center Icon"
+                    style={{objectFit: "cover", objectPosition: 'top center',}}
+                    fill
+                  />
+              </div>
+              <div className='flex items-center'>
+                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold p-4 mr-2'>1</span>
+                <h4 className='font-regular text-base'>Agenda tu cita de valoración</h4>
+              </div>
+            </div>
+            <div className='flex-column'>
+              <div className='flex-column relative h-[212px] mb-4'>
+                <Image
+                    className="rounded-lg object-cover"
+                    src={doctor_image}
+                    alt="Dentales Center Icon"
+                    style={{objectFit: "cover", objectPosition: 'top center',}}
+                    fill
+                  />
+              </div>
+              <div className='flex items-center'>
+                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold p-4 mr-2'>2</span>
+                <h4 className='font-regular text-base'>Recibe tu diagnóstico y plan personalizado</h4>
+              </div>
+            </div>
+            <div className='flex-column'>
+              <div className='flex-column relative h-[212px] mb-4'>
+                <Image
+                    className="rounded-lg object-cover"
+                    src={doctor_image}
+                    alt="Dentales Center Icon"
+                    style={{objectFit: "cover", objectPosition: 'top center',}}
+                    fill
+                  />
+              </div>
+              <div className='flex items-center'>
+                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold p-4 mr-2'>3</span>
+                <h4 className='font-regular text-base'>Inicia tu tratamiento con especialistas certificados</h4>
+              </div>
+            </div>
+            <div className='flex-column'>
+              <div className='flex-column relative h-[212px] mb-4'>
+                <Image
+                    className="rounded-lg object-cover"
+                    src={doctor_image}
+                    alt="Dentales Center Icon"
+                    style={{objectFit: "cover", objectPosition: 'top center',}}
+                    fill
+                  />
+              </div>
+              <div className='flex items-center'>
+                <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold p-4 mr-2'>4</span>
+                <h4 className='font-regular text-base'>Resultados que te harán sonreír</h4>
+              </div>
+            </div>
+          </div>
+
           <p className='text-center'>
             <a href="#" className="inline-flex justify-center items-center bg-gold py-2 px-4 rounded-full text-white text-base font-semibold">
               <span className='mr-2' aria-hidden="true">&rarr;</span>
