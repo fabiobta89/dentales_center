@@ -8,6 +8,7 @@ import mouth_image from '@/images/mouth.png';
 import team_image from '@/images/team.png';
 import icon_image from '@/images/icon@2x.png'; 
 import customer_image from '@/images/customer.png'; 
+import girl_image from '@/images/girl.png'; 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from "yup";
 import { BsFacebook, BsInstagram, BsTiktok } from "react-icons/bs";
@@ -130,7 +131,7 @@ export default function Home() {
               </a>
             </p>
           </div>
-          <div className='hidden lg:flex z-0 absolute top-0 bottom-0 right-0 left-0 bg-bottom-right bg-contain bg-no-repeat bg-[url(@/images/girl.png)]'></div>
+          <div className={`hidden lg:flex z-0 absolute top-0 bottom-0 right-0 left-0 bg-bottom-right bg-contain bg-no-repeat`}></div>
         </div>
       </section>
       <section className='py-24'>
