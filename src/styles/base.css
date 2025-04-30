@@ -2,3 +2,7 @@
     background: RGBA(246, 236, 221, 1);
     background: radial-gradient(circle at top, rgba(246, 236, 221, 1) 0%, rgba(213, 185, 159, 1) 30%, rgba(197, 160, 128, 1) 60%, rgba(175, 128, 90, 1) 100%);
 }
+
+.banner-image{
+    background-image: url('/images/girl.png');
+}
