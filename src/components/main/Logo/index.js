@@ -8,7 +8,7 @@ export default function Logo({}) {
     <div className="inline-flex">
         <Link href={``}>
             <Image
-            className="dark:invert"
+            // className="dark:invert"
             src={logo_image}
             alt="Dentales Center logo"
             width={129}
