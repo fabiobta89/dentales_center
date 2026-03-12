@@ -44,22 +44,18 @@ export default function Home() {
       <header className="bg-white fixed top-0 left-0 right-0 z-50 shadow-sm">
         <nav className="mx-auto flex max-w-7xl items-center justify-between p-4" aria-label="Global">
           <div className="flex lg:hidden items-center gap-2">
-            <button onClick={handleMenu} type="button" className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+            <button onClick={handleMenu} type="button" className="inline-flex items-center justify-center w-10 h-10 rounded-full border-2 border-gold-light text-gray-700 hover:border-gold">
               <span className="sr-only">{t('nav.openMenu')}</span>
               <svg className="size-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
             </button>
           </div>
-          <div className="flex lg:flex-1">
+          <div className="flex justify-center lg:justify-start lg:flex-1">
             <Logo/>
           </div>
           <div className="flex lg:hidden items-center gap-2">
             <LanguageToggle />
-            <a href="#agendar" className="flex justify-center items-center bg-gold py-2 px-4 rounded-full text-white text-base font-semibold">
-              <span className='mr-2' aria-hidden="true">&rarr;</span>
-              {t('nav.schedule')}
-            </a>
           </div>
           <div className="hidden lg:flex lg:gap-x-4 xl:gap-x-8">
             <a href="#servicios" className="text-sm font-semibold hover:text-gold hover:font-semibold">{t('nav.services')}</a>
@@ -299,20 +295,20 @@ export default function Home() {
                 <div className='col-span-2'>
                   <p className='flex-column text-gold-dark text-center md:text-left'>
                     <span className='block text-base'>{t('contact.address')}</span>
-                    <span className='block text-3xl font-semibold'>Carrera 44 # 74 - 05, Piso 2 Local 16</span>
-                    <span className='block text-3xl font-semibold'>Plaza Comercial 74</span>
+                    <span className='block text-xl md:text-3xl font-semibold'>Carrera 44 # 74 - 05, Piso 2 Local 16</span>
+                    <span className='block text-xl md:text-3xl font-semibold'>Plaza Comercial 74</span>
                   </p>
                 </div>
                 <div className='col-span-2 md:col-span-1'>
                   <p className='flex-column text-gold-dark text-center md:text-left'>
                     <span className='block text-base'>{t('contact.whatsapp')}</span>
-                    <span className='block text-3xl font-semibold'>(324) 604 4584</span>
+                    <span className='block text-xl md:text-3xl font-semibold'>(324) 604 4584</span>
                   </p>
                 </div>
                 <div className='col-span-2 md:col-span-1'>
                   <p className='flex-column text-gold-dark text-center md:text-left'>
                     <span className='block text-base'>{t('contact.phone')}</span>
-                    <span className='block text-3xl font-semibold'>(324) 604 4584</span>
+                    <span className='block text-xl md:text-3xl font-semibold'>(324) 604 4584</span>
                   </p>
                 </div>
                 <div className='col-span-2'>
@@ -323,13 +319,13 @@ export default function Home() {
                 <div className='col-span-2 md:col-span-1'>
                   <p className='flex-column text-gold-dark text-center md:text-left'>
                     <span className='block text-base'>{t('contact.weekdays')}</span>
-                    <span className='block text-3xl font-semibold'>8AM a 6PM</span>
+                    <span className='block text-xl md:text-3xl font-semibold'>8AM a 6PM</span>
                   </p>
                 </div>
                 <div className='col-span-2 md:col-span-1'>
                   <p className='flex-column text-gold-dark text-center md:text-left'>
                     <span className='block text-base'>{t('contact.saturday')}</span>
-                    <span className='block text-3xl font-semibold'>8AM a 1PM</span>
+                    <span className='block text-xl md:text-3xl font-semibold'>8AM a 1PM</span>
                   </p>
                 </div>
               </div>

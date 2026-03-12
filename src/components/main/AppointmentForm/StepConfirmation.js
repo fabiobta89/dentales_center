@@ -54,7 +54,7 @@ export default function StepConfirmation({ formData, onConfirm, onBack, submitti
           type="button"
           onClick={onBack}
           disabled={submitting}
-          className="h-12 flex-1 flex justify-center items-center text-lg text-gold-dark border-2 border-gold-light font-semibold rounded-full"
+          className="h-12 flex-1 flex justify-center items-center text-sm sm:text-lg text-gold-dark border-2 border-gold-light font-semibold rounded-full"
         >
           {t('form.button.back')}
         </button>
@@ -62,7 +62,7 @@ export default function StepConfirmation({ formData, onConfirm, onBack, submitti
           type="button"
           onClick={onConfirm}
           disabled={submitting}
-          className="h-12 flex-1 flex justify-center items-center text-lg text-white bg-gold font-semibold rounded-full disabled:opacity-50"
+          className="h-12 flex-1 flex justify-center items-center text-sm sm:text-lg text-white bg-gold font-semibold rounded-full disabled:opacity-50"
         >
           {submitting ? t('form.button.confirming') : t('form.button.confirm')}
         </button>
