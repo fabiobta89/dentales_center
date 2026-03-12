@@ -259,8 +259,8 @@ export default function Home() {
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-4 my-12 max-w-5xl mx-auto'>
             {[1, 2, 3, 4].map(step => (
-              <div key={step} className='flex-column'>
-                <div className='flex-column relative h-[212px] mb-4'>
+              <div key={step} className='flex flex-col items-center md:items-stretch'>
+                <div className='flex-column relative h-[140px] w-[140px] md:h-[212px] md:w-full mb-4'>
                   <Image
                       className="rounded-lg object-cover"
                       src={doctor_image}
@@ -269,9 +269,9 @@ export default function Home() {
                       fill
                     />
                 </div>
-                <div className='flex items-center lg:items-start'>
-                  <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold mr-2'>{step}</span>
-                  <h4 className='font-regular text-base'>{t(`howItWorks.step${step}`)}</h4>
+                <div className='flex flex-col items-center md:flex-row md:items-center'>
+                  <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold mb-2 md:mb-0 md:mr-2'>{step}</span>
+                  <h4 className='font-regular text-base text-center md:text-left'>{t(`howItWorks.step${step}`)}</h4>
                 </div>
               </div>
             ))}
