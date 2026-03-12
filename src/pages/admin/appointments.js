@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase';
 import AdminNav from '@/components/main/AdminNav';
 import ConfirmModal from '@/components/main/ConfirmModal';
 
-const PER_PAGE = 10;
+const PER_PAGE = 30;
 const STATUSES = ['pending', 'confirmed', 'completed', 'cancelled', 'no_show'];
 
 const STATUS_COLORS = {
