@@ -4,7 +4,9 @@ import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { createClient } from '@/lib/supabase';
 import AdminNav from '@/components/main/AdminNav';
+import ConfirmModal from '@/components/main/ConfirmModal';
 
+const PER_PAGE = 10;
 const STATUSES = ['pending', 'confirmed', 'completed', 'cancelled', 'no_show'];
 
 const STATUS_COLORS = {
@@ -31,6 +33,11 @@ export default function Appointments() {
 
   const [appointments, setAppointments] = useState([]);
   const [fetching, setFetching] = useState(true);
+  const [page, setPage] = useState(1);
+  const [deleteId, setDeleteId] = useState(null);
+
+  const totalPages = Math.ceil(appointments.length / PER_PAGE);
+  const paginatedAppointments = appointments.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -69,6 +76,21 @@ export default function Appointments() {
       month: 'short',
       day: 'numeric',
     });
+  }
+
+  async function handleDelete(id) {
+    setAppointments(prev => prev.filter(apt => apt.id !== id));
+    setDeleteId(null);
+
+    const res = await fetch(`/api/appointments/${id}`, { method: 'DELETE' });
+    if (!res.ok) {
+      const { data } = await supabase
+        .from('appointments')
+        .select('*')
+        .order('date', { ascending: true })
+        .order('time', { ascending: true });
+      if (data) setAppointments(data);
+    }
   }
 
   async function handleStatusChange(id, newStatus) {
@@ -125,7 +147,7 @@ export default function Appointments() {
         ) : (
           <>
           <div className="flex flex-col gap-4 lg:hidden">
-            {appointments.map((apt) => (
+            {paginatedAppointments.map((apt) => (
               <div key={apt.id} className="bg-white rounded-xl p-4 space-y-3">
                 <p className="text-sm font-semibold text-gold-dark">{apt.name}</p>
                 <div className="grid grid-cols-2 gap-2 text-sm">
@@ -164,6 +186,12 @@ export default function Appointments() {
                     ))}
                   </select>
                 </div>
+                <button
+                  onClick={() => setDeleteId(apt.id)}
+                  className="w-full text-sm text-red-600 font-semibold border-2 border-red-200 rounded-lg py-2 hover:bg-red-50"
+                >
+                  {t('admin.appointments.delete')}
+                </button>
               </div>
             ))}
           </div>
@@ -180,10 +208,11 @@ export default function Appointments() {
                   <th className="px-4 py-3 font-semibold">{t('admin.appointments.phone')}</th>
                   <th className="px-4 py-3 font-semibold">{t('admin.appointments.reason')}</th>
                   <th className="px-4 py-3 font-semibold">{t('admin.appointments.status')}</th>
+                  <th className="px-4 py-3 font-semibold"></th>
                 </tr>
               </thead>
               <tbody>
-                {appointments.map((apt) => (
+                {paginatedAppointments.map((apt) => (
                   <tr key={apt.id} className="border-t border-gold-extralight hover:bg-gold-light/20">
                     <td className="px-4 py-3 text-sm text-gold-dark capitalize">{formatDate(apt.date)}</td>
                     <td className="px-4 py-3 text-sm text-gold-dark font-semibold">{apt.time}</td>
@@ -202,14 +231,52 @@ export default function Appointments() {
                         ))}
                       </select>
                     </td>
+                    <td className="px-4 py-3">
+                      <button
+                        onClick={() => setDeleteId(apt.id)}
+                        className="text-xs text-red-600 font-semibold hover:underline"
+                      >
+                        {t('admin.appointments.delete')}
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="text-sm font-semibold text-gold-dark border-2 border-gold-light rounded-full px-4 py-2 disabled:opacity-30"
+              >
+                &larr;
+              </button>
+              <span className="text-sm text-gold-dark">
+                {t('admin.appointments.page')} {page} {t('admin.appointments.of')} {totalPages}
+              </span>
+              <button
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                className="text-sm font-semibold text-gold-dark border-2 border-gold-light rounded-full px-4 py-2 disabled:opacity-30"
+              >
+                &rarr;
+              </button>
+            </div>
+          )}
           </>
         )}
       </div>
+
+      {deleteId && (
+        <ConfirmModal
+          message={t('admin.appointments.confirmDelete')}
+          onConfirm={() => handleDelete(deleteId)}
+          onCancel={() => setDeleteId(null)}
+        />
+      )}
     </div>
   );
 }

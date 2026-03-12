@@ -113,6 +113,10 @@
   "admin.appointments.reason": "Motivo",
   "admin.appointments.status": "Estado",
   "admin.appointments.statusGuide": "Gu\u00eda de estados",
+  "admin.appointments.delete": "Eliminar",
+  "admin.appointments.confirmDelete": "\u00bfEliminar esta cita?",
+  "admin.appointments.page": "P\u00e1gina",
+  "admin.appointments.of": "de",
 
   "status.pending": "Pendiente",
   "status.confirmed": "Confirmada",
@@ -125,5 +129,7 @@
   "status.desc.cancelled": "La cita fue cancelada por el paciente o la cl\u00ednica.",
   "status.desc.no_show": "El paciente no se present\u00f3 a la cita.",
 
-  "common.loading": "Cargando..."
+  "common.loading": "Cargando...",
+  "common.cancel": "Cancelar",
+  "common.confirm": "Confirmar"
 }

@@ -113,6 +113,10 @@
   "admin.appointments.reason": "Reason",
   "admin.appointments.status": "Status",
   "admin.appointments.statusGuide": "Status guide",
+  "admin.appointments.delete": "Delete",
+  "admin.appointments.confirmDelete": "Delete this appointment?",
+  "admin.appointments.page": "Page",
+  "admin.appointments.of": "of",
 
   "status.pending": "Pending",
   "status.confirmed": "Confirmed",
@@ -125,5 +129,7 @@
   "status.desc.cancelled": "The appointment was cancelled by the patient or the clinic.",
   "status.desc.no_show": "The patient did not show up for the appointment.",
 
-  "common.loading": "Loading..."
+  "common.loading": "Loading...",
+  "common.cancel": "Cancel",
+  "common.confirm": "Confirm"
 }
