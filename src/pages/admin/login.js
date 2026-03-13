@@ -55,7 +55,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
-      <div className="bg-white rounded-xl px-8 py-10 w-full max-w-md">
+      <div className="bg-white rounded-xl px-8 py-10 w-full max-w-md mx-6">
         <div className="flex justify-center mb-8">
           <Logo />
         </div>
