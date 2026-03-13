@@ -22,22 +22,26 @@ const TESTIMONIALS = [
   {
     photo: '/images/testimony.jpg',
     name: 'Yery Castrillon',
-    quote: 'Recuperé mi sonrisa y confianza gracias al equipo de Dentales Center.',
+    quote_es: 'Recuperé mi sonrisa y confianza gracias al equipo de Dentales Center.',
+    quote_en: 'I regained my smile and confidence thanks to the Dentales Center team.',
   },
   {
     photo: '/images/testimony.jpg',
     name: 'Yery Castrillon',
-    quote: 'El equipo es increíble, muy profesionales y amables con cada paciente.',
+    quote_es: 'El equipo es increíble, muy profesionales y amables con cada paciente.',
+    quote_en: 'The team is incredible, very professional and kind with every patient.',
   },
   {
     photo: '/images/testimony.jpg',
     name: 'Yery Castrillon',
-    quote: 'Excelente servicio, quedé muy satisfecho con mi tratamiento de ortodoncia.',
+    quote_es: 'Excelente servicio, quedé muy satisfecho con mi tratamiento de ortodoncia.',
+    quote_en: 'Excellent service, I was very satisfied with my orthodontics treatment.',
   },
   {
     photo: '/images/testimony.jpg',
     name: 'Yery Castrillon',
-    quote: 'Recomiendo totalmente Dentales Center, cambiaron mi sonrisa y mi vida.',
+    quote_es: 'Recomiendo totalmente Dentales Center, cambiaron mi sonrisa y mi vida.',
+    quote_en: 'I totally recommend Dentales Center, they changed my smile and my life.',
   },
 ];
 
@@ -51,7 +55,7 @@ export default function Home() {
   const [showMenu, setShowMenu] = useState(false);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const TESTIMONIAL_COUNT = TESTIMONIALS.length;
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   function handleMenu() {
     setShowMenu(!showMenu);
@@ -266,7 +270,7 @@ export default function Home() {
               )}
               <div className='flex-column md:ml-4 p-4 md:p-0'>
                 <h4 className='mb-2 text-gold-dark text-xl'>{TESTIMONIALS[testimonialIndex].name}</h4>
-                <p className='text-gold-dark text-2xl font-semibold'>{TESTIMONIALS[testimonialIndex].quote}</p>
+                <p className='text-gold-dark text-2xl font-semibold'>{locale === 'en' ? TESTIMONIALS[testimonialIndex].quote_en : TESTIMONIALS[testimonialIndex].quote_es}</p>
               </div>
             </div>
             <div className='flex justify-center items-center gap-4 mt-6'>
