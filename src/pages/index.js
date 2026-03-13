@@ -395,18 +395,15 @@ export default function Home() {
       <footer className='py-6 bg-black'>
         <div className='w-full mx-auto max-w-7xl px-4'>
           <div className='flex-column justify-center items-center lg:flex lg:justify-between items-center'>
-            <div className='flex jusitfy-center items-center'>
+            <div className='flex flex-col items-center lg:flex-row lg:justify-start gap-3'>
               <Image
-                className="mx-auto"
                 src={icon_image}
                 alt="Dentales Center Icon"
                 width={32}
                 height={32}
                 priority
               />
-            </div>
-            <div className='flex justify-center'>
-              <p className='text-base text-white text-center py-4 lg:py-0'>{t('footer.copyright')}</p>
+              <p className='text-base text-white py-4 lg:py-0'>{t('footer.copyright')}</p>
             </div>
             <div className='flex justify-center'>
               <ul className='flex'>
