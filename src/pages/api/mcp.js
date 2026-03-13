@@ -30,6 +30,31 @@ function createMcpServer() {
   const server = new McpServer({ name: 'dentales-center', version: '1.0.0' });
 
   server.tool(
+    'get_current_datetime',
+    {},
+    { description: 'Returns the current date and time in Colombia (America/Bogota, UTC-5). Call this whenever you need to know today\'s date before checking availability or interpreting relative dates like "tomorrow" or "next week".' },
+    async () => {
+      const now = new Date();
+      const bogota = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'America/Bogota',
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false,
+      }).formatToParts(now);
+
+      const get = (type) => bogota.find(p => p.type === type).value;
+      const date = `${get('year')}-${get('month')}-${get('day')}`;
+      const time = `${get('hour')}:${get('minute')}:${get('second')}`;
+      const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      const dayName = dayNames[new Date(`${date}T${time}`).getDay()];
+
+      return {
+        content: [{ type: 'text', text: JSON.stringify({ date, time, timezone: 'America/Bogota', day_of_week: dayName }) }],
+      };
+    }
+  );
+
+  server.tool(
     'check_availability',
     {
       date: z.string().describe('Date to check in YYYY-MM-DD format (must not be in the past)'),
