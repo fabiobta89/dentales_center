@@ -219,7 +219,7 @@ export default function Appointments() {
                     <td className="px-4 py-3 text-sm text-gold-dark">{apt.name}</td>
                     <td className="px-4 py-3 text-sm text-gold-dark">{apt.email}</td>
                     <td className="px-4 py-3 text-sm text-gold-dark">{apt.phone}</td>
-                    <td className="px-4 py-3 text-sm text-gold-dark max-w-[200px] truncate">{apt.message || '—'}</td>
+                    <td className="px-4 py-3 text-sm text-gold-dark">{apt.message || '—'}</td>
                     <td className="px-4 py-3">
                       <select
                         value={apt.status || 'pending'}
