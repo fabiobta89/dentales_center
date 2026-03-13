@@ -7,8 +7,9 @@ import Image from 'next/image';
 import mouth_image from '@/images/mouth.png';
 import team_image from '@/images/team.png';
 import icon_image from '@/images/icon@2x.png';
-import customer_image from '@/images/customer.png';
+
 import doctor_image from '@/images/doctor.png';
+import customer_image from '@/images/customer.png';
 import dynamic from 'next/dynamic';
 
 const AppointmentForm = dynamic(() => import('@/components/main/AppointmentForm'), { ssr: false });
@@ -16,6 +17,29 @@ import { BsFacebook, BsInstagram, BsTiktok } from "react-icons/bs";
 import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import LanguageToggle from '@/components/main/LanguageToggle';
+
+const TESTIMONIALS = [
+  {
+    photo: '/images/testimony.jpg',
+    name: 'Yery Castrillon',
+    quote: 'Recuperé mi sonrisa y confianza gracias al equipo de Dentales Center.',
+  },
+  {
+    photo: '/images/testimony.jpg',
+    name: 'Yery Castrillon',
+    quote: 'El equipo es increíble, muy profesionales y amables con cada paciente.',
+  },
+  {
+    photo: '/images/testimony.jpg',
+    name: 'Yery Castrillon',
+    quote: 'Excelente servicio, quedé muy satisfecho con mi tratamiento de ortodoncia.',
+  },
+  {
+    photo: '/images/testimony.jpg',
+    name: 'Yery Castrillon',
+    quote: 'Recomiendo totalmente Dentales Center, cambiaron mi sonrisa y mi vida.',
+  },
+];
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,7 +50,7 @@ export default function Home() {
 
   const [showMenu, setShowMenu] = useState(false);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
-  const TESTIMONIAL_COUNT = 4;
+  const TESTIMONIAL_COUNT = TESTIMONIALS.length;
   const { t } = useLanguage();
 
   function handleMenu() {
@@ -221,27 +245,28 @@ export default function Home() {
           <p className='text-xl text-center font-regular max-w-lg mx-auto text-gold-dark' dangerouslySetInnerHTML={{ __html: t('testimonials.subtitle') }} />
           <div className='relative my-12 max-w-2xl mx-auto'>
             <div className='flex-column md:flex items-center bg-white md:p-4 rounded-lg'>
-              <Image
-                className="hidden md:flex rounded-lg mb-0"
-                src={customer_image}
-                alt="Dentales Center Icon"
-                width={211}
-                height={236}
-                style={{objectFit: "cover", objectPosition: 'top center',}}
-                priority
-              />
-              <div className='relative h-[300px] md:hidden'>
-                <Image
-                  className="rounded-t-lg object-cover"
-                  src={customer_image}
-                  alt="Dentales Center Icon"
-                  style={{objectFit: "cover", objectPosition: 'top center',}}
-                  fill
-                />
-              </div>
+              {TESTIMONIALS[testimonialIndex].photo && (
+                <>
+                  <img
+                    className="hidden md:block rounded-lg object-cover object-top shrink-0"
+                    src={TESTIMONIALS[testimonialIndex].photo}
+                    alt={TESTIMONIALS[testimonialIndex].name}
+                    width={211}
+                    height={236}
+                    style={{width: 211, height: 236}}
+                  />
+                  <div className='relative h-[300px] md:hidden'>
+                    <img
+                      className="rounded-t-lg w-full h-full object-cover object-top"
+                      src={TESTIMONIALS[testimonialIndex].photo}
+                      alt={TESTIMONIALS[testimonialIndex].name}
+                    />
+                  </div>
+                </>
+              )}
               <div className='flex-column md:ml-4 p-4 md:p-0'>
-                <h4 className='mb-2 text-gold-dark text-xl'>Wade Warren</h4>
-                <p className='text-gold-dark text-2xl font-semibold'>{t('testimonials.quote')}</p>
+                <h4 className='mb-2 text-gold-dark text-xl'>{TESTIMONIALS[testimonialIndex].name}</h4>
+                <p className='text-gold-dark text-2xl font-semibold'>{TESTIMONIALS[testimonialIndex].quote}</p>
               </div>
             </div>
             <div className='flex justify-center items-center gap-4 mt-6'>
