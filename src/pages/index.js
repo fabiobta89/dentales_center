@@ -25,6 +25,8 @@ const inter = Inter({
 export default function Home() {
 
   const [showMenu, setShowMenu] = useState(false);
+  const [testimonialIndex, setTestimonialIndex] = useState(0);
+  const TESTIMONIAL_COUNT = 4;
   const { t } = useLanguage();
 
   function handleMenu() {
@@ -217,33 +219,54 @@ export default function Home() {
         <div className='w-full mx-auto flex-column max-w-7xl px-4'>
           <h2 className='text-5xl text-center font-semibold text-gold mb-4'>{t('testimonials.heading')}</h2>
           <p className='text-xl text-center font-regular max-w-lg mx-auto text-gold-dark' dangerouslySetInnerHTML={{ __html: t('testimonials.subtitle') }} />
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 items-center my-12'>
-            {[0, 1, 2, 3].map(i => (
-              <div key={i} className='flex-column md:flex items-center bg-white md:p-4 rounded-lg'>
+          <div className='relative my-12 max-w-2xl mx-auto'>
+            <div className='flex-column md:flex items-center bg-white md:p-4 rounded-lg'>
+              <Image
+                className="hidden md:flex rounded-lg mb-0"
+                src={customer_image}
+                alt="Dentales Center Icon"
+                width={211}
+                height={236}
+                style={{objectFit: "cover", objectPosition: 'top center',}}
+                priority
+              />
+              <div className='relative h-[300px] md:hidden'>
                 <Image
-                  className="hidden md:flex rounded-lg mb-0"
+                  className="rounded-t-lg object-cover"
                   src={customer_image}
                   alt="Dentales Center Icon"
-                  width={211}
-                  height={236}
                   style={{objectFit: "cover", objectPosition: 'top center',}}
-                  priority
+                  fill
                 />
-                <div className='relative h-[300px] md:hidden'>
-                  <Image
-                    className="rounded-t-lg object-cover"
-                    src={customer_image}
-                    alt="Dentales Center Icon"
-                    style={{objectFit: "cover", objectPosition: 'top center',}}
-                    fill
-                  />
-                </div>
-                <div className='flex-column md:ml-4 p-4 md:p-0'>
-                  <h4 className='mb-2 text-gold-dark text-xl'>Wade Warren</h4>
-                  <p className='text-gold-dark text-2xl font-semibold'>{t('testimonials.quote')}</p>
-                </div>
               </div>
-            ))}
+              <div className='flex-column md:ml-4 p-4 md:p-0'>
+                <h4 className='mb-2 text-gold-dark text-xl'>Wade Warren</h4>
+                <p className='text-gold-dark text-2xl font-semibold'>{t('testimonials.quote')}</p>
+              </div>
+            </div>
+            <div className='flex justify-center items-center gap-4 mt-6'>
+              <button
+                onClick={() => setTestimonialIndex(i => (i - 1 + TESTIMONIAL_COUNT) % TESTIMONIAL_COUNT)}
+                className='w-10 h-10 rounded-full border-2 border-gold-light text-gold-dark font-bold hover:border-gold flex items-center justify-center'
+              >
+                &larr;
+              </button>
+              <div className='flex gap-2'>
+                {Array.from({ length: TESTIMONIAL_COUNT }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setTestimonialIndex(i)}
+                    className={`w-2.5 h-2.5 rounded-full transition-colors ${i === testimonialIndex ? 'bg-gold' : 'bg-gold-light'}`}
+                  />
+                ))}
+              </div>
+              <button
+                onClick={() => setTestimonialIndex(i => (i + 1) % TESTIMONIAL_COUNT)}
+                className='w-10 h-10 rounded-full border-2 border-gold-light text-gold-dark font-bold hover:border-gold flex items-center justify-center'
+              >
+                &rarr;
+              </button>
+            </div>
           </div>
           <p className='text-center'>
             <a href="#agendar" className="inline-flex justify-center items-center bg-gold py-2 px-4 rounded-full text-white text-base font-semibold">
