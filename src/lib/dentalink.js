@@ -15,10 +15,13 @@ export async function getAvailabilityForRange(startDate, endDate) {
     throw new Error('Dentalink API not configured');
   }
 
+  const duracion = process.env.DENTALINK_DURACION || '30';
+
   const params = JSON.stringify({
     fecha_inicio: { eq: startDate },
     fecha_fin: { eq: endDate },
     mostrar_detalles: { eq: '1' },
+    duracion: { eq: duracion },
   });
 
   const url = `${DENTALINK_URL}/sucursales/${sucursalId}/dentistas/${dentistaId}/agendas?q=${encodeURIComponent(params)}`;
