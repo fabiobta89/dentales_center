@@ -206,7 +206,7 @@ export default function Home() {
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 items-center'>
             <div>
               <h2 className='text-5xl font-semibold text-gold mb-4 text-center lg:text-left'>{t('services.heading')}</h2>
-              <div className="relative mx-auto lg:mx-0 w-full max-w-[563px]">
+              <div className="relative w-full">
                 <div className="relative overflow-hidden rounded-xl">
                   <div
                     className="flex transition-transform duration-300 ease-in-out"
@@ -218,8 +218,8 @@ export default function Home() {
                         className="w-full flex-shrink-0 object-cover"
                         src={img.src}
                         alt={img.alt}
-                        width={563}
-                        height={400}
+                        width={'100%'}
+                        // height={400}
                         priority={i === 0}
                       />
                     ))}
