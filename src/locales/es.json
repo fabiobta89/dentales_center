@@ -20,9 +20,11 @@
   "services.paragraph": "Desde ortodoncia hasta rehabilitaci\u00f3n oral, nuestros servicios est\u00e1n dise\u00f1ados para ofrecerte soluciones duraderas y personalizadas.",
   "services.cleaning": "Limpieza",
   "services.restorations": "Restauraciones",
-  "services.smileDesign": "Dise\u00f1o de Sonrisas",
-  "services.orthodontics": "Ortodoncias",
-  "services.prosthetics": "Pr\u00f3tesis Dentales",
+  "services.smileDesign": "Dise\u00f1o de Sonrisa",
+  "services.crowns": "Coronas",
+  "services.implants": "Implantes",
+  "services.orthodontics": "Ortodoncia",
+  "services.prosthetics": "Pr\u00f3tesis Removibles",
 
   "aboutUs.heading": "M\u00e1s de 15 a\u00f1os transformando sonrisas en Barranquilla",
   "aboutUs.paragraph": "Somos un consultorio y laboratorio dental con enfoque humano y tecnol\u00f3gico. Nuestro equipo est\u00e1 compuesto por especialistas en odontolog\u00eda general, ortodoncia y est\u00e9tica dental que te acompa\u00f1an desde la primera cita hasta el resultado final.",
@@ -48,6 +50,8 @@
   "contact.hours": "Horarios:",
   "contact.weekdays": "Lunes a Viernes",
   "contact.saturday": "S\u00e1bados",
+  "contact.weekdaysHours": "8AM a 5PM",
+  "contact.saturdayHours": "8AM a 5PM",
   "contact.formHeading": "\u00a1Agenda tu cita de valoraci\u00f3n ahora!",
 
   "footer.copyright": "\u00a9 Dentales Center 2026. Todos los Derechos Reservados",

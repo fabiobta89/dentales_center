@@ -1,15 +1,26 @@
 import { Inter } from 'next/font/google';
-import { IoSearch, IoCheckmark } from "react-icons/io5";
+import { IoSearch, IoCheckmark, IoChevronBack, IoChevronForward } from "react-icons/io5";
 import { CiViewList } from "react-icons/ci";
 import { LiaTeethOpenSolid } from "react-icons/lia";
 import Logo from "@/components/main/Logo";
 import Image from 'next/image';
-import mouth_image from '@/images/mouth.png';
-import team_image from '@/images/team.png';
+import mouth_image from '@/images/smileOne.png';
+import mouth_image2 from '@/images/smileTwo.png';
+import team_image from '@/images/team.jpeg';
 import icon_image from '@/images/icon@2x.png';
 
 import doctor_image from '@/images/doctor.png';
 import customer_image from '@/images/customer.png';
+import test1_image from '@/images/test1.jpeg';
+import test2_image from '@/images/test2.jpeg';
+import test3_image from '@/images/test3.jpeg';
+import test4_image from '@/images/test4.jpeg';
+import test5_image from '@/images/test5.jpeg';
+import test6_image from '@/images/test6.jpeg';
+import step1_image from '@/images/step1.jpg';
+import step2_image from '@/images/step2.jpg';
+import step3_image from '@/images/step3.jpg';
+import step4_image from '@/images/step4.jpg';
 import dynamic from 'next/dynamic';
 
 const AppointmentForm = dynamic(() => import('@/components/main/AppointmentForm'), { ssr: false });
@@ -18,31 +29,57 @@ import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import LanguageToggle from '@/components/main/LanguageToggle';
 
+const SERVICE_IMAGES = [
+  { src: mouth_image, alt: 'Dentales Center tratamientos' },
+  { src: mouth_image2, alt: 'Dentales Center tratamientos' },
+];
+
 const TESTIMONIALS = [
   {
-    photo: '/images/testimony.jpg',
+    photo: test5_image,
     name: 'Yery Castrillon',
-    quote_es: 'Recuperé mi sonrisa y confianza gracias al equipo de Dentales Center.',
+    quote_es: 'Superaron lo que yo queria',
     quote_en: 'I regained my smile and confidence thanks to the Dentales Center team.',
   },
   {
-    photo: '/images/testimony.jpg',
-    name: 'Yery Castrillon',
-    quote_es: 'El equipo es increíble, muy profesionales y amables con cada paciente.',
+    photo: test1_image,
+    name: 'Maria Jose',
+    quote_es: 'Gracias por tanto profesionalismo y dedicación.',
     quote_en: 'The team is incredible, very professional and kind with every patient.',
   },
   {
-    photo: '/images/testimony.jpg',
-    name: 'Yery Castrillon',
-    quote_es: 'Excelente servicio, quedé muy satisfecho con mi tratamiento de ortodoncia.',
+    photo: test2_image,
+    name: 'Jesus N',
+    quote_es: 'Estoy demasiado feliz con mi cambio, valió totalmente la pena.',
     quote_en: 'Excellent service, I was very satisfied with my orthodontics treatment.',
   },
   {
-    photo: '/images/testimony.jpg',
-    name: 'Yery Castrillon',
-    quote_es: 'Recomiendo totalmente Dentales Center, cambiaron mi sonrisa y mi vida.',
+    photo: test3_image,
+    name: 'Wilson',
+    quote_es: 'Increíble el trabajo, cuidaron cada detalle.',
     quote_en: 'I totally recommend Dentales Center, they changed my smile and my life.',
   },
+  {
+    photo: test6_image,
+    name: 'Isaias',
+    quote_es: 'No sé por qué me demoré tanto en venir, debí hacerlo antes.',
+    quote_en: 'I totally recommend Dentales Center, they changed my smile and my life.',
+  },
+];
+
+const STEPS = [
+  { image: step1_image, text_es: 'Agenda tu cita de valoración', text_en: 'Book your evaluation appointment' },
+  { image: step2_image, text_es: 'Recibe tu diagnóstico y plan personalizado', text_en: 'Receive your diagnosis and personalized plan' },
+  { image: step3_image, text_es: 'Inicia tu tratamiento con especialistas', text_en: 'Start your treatment with specialists' },
+  { image: step4_image, text_es: 'Resultados que te harán sonreír', text_en: 'Results that will make you smile' },
+];
+
+const SERVICES = [
+  { textKey: 'services.smileDesign' },
+  { textKey: 'services.crowns' },
+  { textKey: 'services.implants' },
+  { textKey: 'services.prosthetics' },
+  { textKey: 'services.orthodontics' },
 ];
 
 const inter = Inter({
@@ -53,6 +90,7 @@ const inter = Inter({
 export default function Home() {
 
   const [showMenu, setShowMenu] = useState(false);
+  const [carouselIndex, setCarouselIndex] = useState(0);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const TESTIMONIAL_COUNT = TESTIMONIALS.length;
   const { t, locale } = useLanguage();
@@ -168,50 +206,66 @@ export default function Home() {
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 items-center'>
             <div>
               <h2 className='text-5xl font-semibold text-gold mb-4 text-center lg:text-left'>{t('services.heading')}</h2>
-              <p>
-                <Image
-                  className="mx-auto lg:mx-0"
-                  src={mouth_image}
-                  alt="Dentales Center tratamientos"
-                  width={563}
-                  height={400}
-                  priority
-                  />
-              </p>
+              <div className="relative mx-auto lg:mx-0 w-full max-w-[563px]">
+                <div className="relative overflow-hidden rounded-xl">
+                  <div
+                    className="flex transition-transform duration-300 ease-in-out"
+                    style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
+                  >
+                    {SERVICE_IMAGES.map((img, i) => (
+                      <Image
+                        key={i}
+                        className="w-full flex-shrink-0 object-cover"
+                        src={img.src}
+                        alt={img.alt}
+                        width={563}
+                        height={400}
+                        priority={i === 0}
+                      />
+                    ))}
+                  </div>
+                </div>
+                {SERVICE_IMAGES.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => setCarouselIndex((prev) => (prev === 0 ? SERVICE_IMAGES.length - 1 : prev - 1))}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-gold/80 hover:bg-gold text-white rounded-full transition-colors"
+                      aria-label="Imagen anterior"
+                    >
+                      <IoChevronBack />
+                    </button>
+                    <button
+                      onClick={() => setCarouselIndex((prev) => (prev === SERVICE_IMAGES.length - 1 ? 0 : prev + 1))}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-gold/80 hover:bg-gold text-white rounded-full transition-colors"
+                      aria-label="Siguiente imagen"
+                    >
+                      <IoChevronForward />
+                    </button>
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+                      {SERVICE_IMAGES.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setCarouselIndex(i)}
+                          className={`w-2.5 h-2.5 rounded-full transition-colors ${i === carouselIndex ? 'bg-gold' : 'bg-gold/40'}`}
+                          aria-label={`Ir a imagen ${i + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
             <div>
               <p className='mb-4 text-xl font-regular text-center lg:text-left mx-auto lg:mx-0'>{t('services.paragraph')}</p>
               <ul className='flex-column items-center justify-center'>
-                <li className='relative text-center text-3xl font-semibold text-gold-dark border-b-4 border-gold-extralight py-4'>
-                  <div className='absolute top-[50%] transform-[translateY(-50%)] p-2 flex items-center justify-center bg-gold-extralight rounded-full'>
-                    <LiaTeethOpenSolid />
-                  </div>
-                  {t('services.cleaning')}
-                </li>
-                <li className='relative text-center text-3xl font-semibold text-gold-dark border-b-4 border-gold-extralight py-4'>
-                  <div className='absolute top-[50%] transform-[translateY(-50%)] p-2 flex items-center justify-center bg-gold-extralight rounded-full'>
-                    <LiaTeethOpenSolid />
-                  </div>
-                  {t('services.restorations')}
-                </li>
-                <li className='relative text-center text-3xl font-semibold text-gold-dark border-b-4 border-gold-extralight py-4'>
-                  <div className='absolute top-[50%] transform-[translateY(-50%)] p-2 flex items-center justify-center bg-gold-extralight rounded-full'>
-                    <LiaTeethOpenSolid />
-                  </div>
-                  {t('services.smileDesign')}
-                </li>
-                <li className='relative text-center text-3xl font-semibold text-gold-dark border-b-4 border-gold-extralight py-4'>
-                  <div className='absolute top-[50%] transform-[translateY(-50%)] p-2 flex items-center justify-center bg-gold-extralight rounded-full'>
-                    <LiaTeethOpenSolid />
-                  </div>
-                  {t('services.orthodontics')}
-                </li>
-                <li className='relative text-center text-3xl font-semibold text-gold-dark border-b-4 border-gold-extralight py-4'>
-                  <div className='absolute top-[50%] transform-[translateY(-50%)] p-2 flex items-center justify-center bg-gold-extralight rounded-full'>
-                    <LiaTeethOpenSolid />
-                  </div>
-                  {t('services.prosthetics')}
-                </li>
+                {SERVICES.map((service, i) => (
+                  <li key={i} className='relative text-center text-3xl font-semibold text-gold-dark border-b-4 border-gold-extralight py-4'>
+                    <div className='absolute top-[50%] transform-[translateY(-50%)] p-2 flex items-center justify-center bg-gold-extralight rounded-full'>
+                      <LiaTeethOpenSolid />
+                    </div>
+                    {t(service.textKey)}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -248,27 +302,30 @@ export default function Home() {
           <h2 className='text-5xl text-center font-semibold text-gold mb-4'>{t('testimonials.heading')}</h2>
           <p className='text-xl text-center font-regular max-w-lg mx-auto text-gold-dark' dangerouslySetInnerHTML={{ __html: t('testimonials.subtitle') }} />
           <div className='relative my-12 max-w-2xl mx-auto'>
-            <div className='flex-column md:flex items-center bg-white md:p-4 rounded-lg'>
+            <div className='flex-column md:flex items-center bg-white p-6 md:p-8 rounded-lg'>
               {TESTIMONIALS[testimonialIndex].photo && (
                 <>
-                  <img
-                    className="hidden md:block rounded-lg object-cover object-top shrink-0"
-                    src={TESTIMONIALS[testimonialIndex].photo}
-                    alt={TESTIMONIALS[testimonialIndex].name}
-                    width={211}
-                    height={236}
-                    style={{width: 211, height: 236}}
-                  />
-                  <div className='relative h-[300px] md:hidden'>
-                    <img
-                      className="rounded-t-lg w-full h-full object-cover object-top"
+                  <div className='relative w-[200px] h-[250px] min-w-[200px] hidden md:block rounded-lg overflow-hidden'>
+                    <Image
+                      className="object-cover object-center"
                       src={TESTIMONIALS[testimonialIndex].photo}
                       alt={TESTIMONIALS[testimonialIndex].name}
+                      fill
+                      style={{ objectFit: 'cover', objectPosition: 'center' }}
+                    />
+                  </div>
+                  <div className='relative w-full h-[300px] mx-auto md:hidden'>
+                    <Image
+                      className="rounded-t-lg object-cover object-center"
+                      src={TESTIMONIALS[testimonialIndex].photo}
+                      alt={TESTIMONIALS[testimonialIndex].name}
+                      fill
+                      style={{ objectFit: 'cover', objectPosition: 'center' }}
                     />
                   </div>
                 </>
               )}
-              <div className='flex-column md:ml-4 p-4 md:p-0'>
+              <div className='flex-column md:ml-4 p-4 md:p-0 text-center md:text-left'>
                 <h4 className='mb-2 text-gold-dark text-xl'>{TESTIMONIALS[testimonialIndex].name}</h4>
                 <p className='text-gold-dark text-2xl font-semibold'>{locale === 'en' ? TESTIMONIALS[testimonialIndex].quote_en : TESTIMONIALS[testimonialIndex].quote_es}</p>
               </div>
@@ -310,20 +367,20 @@ export default function Home() {
           <h2 className='text-5xl text-center font-semibold text-gold mb-4'>{t('howItWorks.heading')}</h2>
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4 lg:grid-cols-4 my-12 max-w-5xl mx-auto'>
-            {[1, 2, 3, 4].map(step => (
-              <div key={step} className='flex flex-col items-center md:items-stretch'>
+            {STEPS.map((step, index) => (
+              <div key={index} className='flex flex-col items-center md:items-stretch'>
                 <div className='flex-column relative h-[140px] w-[140px] md:h-[212px] md:w-full mb-4'>
                   <Image
                       className="rounded-lg object-cover"
-                      src={doctor_image}
-                      alt="Dentales Center Icon"
+                      src={step.image}
+                      alt={locale === 'en' ? step.text_en : step.text_es}
                       style={{objectFit: "cover", objectPosition: 'top center',}}
                       fill
                     />
                 </div>
                 <div className='flex flex-col items-center md:flex-row md:items-center'>
-                  <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold mb-2 md:mb-0 md:mr-2'>{step}</span>
-                  <h4 className='font-regular text-base text-center md:text-left'>{t(`howItWorks.step${step}`)}</h4>
+                  <span className='flex justify-center items-center text-white text-xl font-bold h-[48px] min-w-[48px] rounded-full bg-gold mb-2 md:mb-0 md:mr-2'>{index + 1}</span>
+                  <h4 className='font-regular text-base text-center md:text-left'>{locale === 'en' ? step.text_en : step.text_es}</h4>
                 </div>
               </div>
             ))}
@@ -371,13 +428,13 @@ export default function Home() {
                 <div className='col-span-2 md:col-span-1'>
                   <p className='flex-column text-gold-dark text-center md:text-left'>
                     <span className='block text-base'>{t('contact.weekdays')}</span>
-                    <span className='block text-xl md:text-3xl font-semibold'>8AM a 6PM</span>
+                    <span className='block text-xl md:text-3xl font-semibold'>{t('contact.weekdaysHours')}</span>
                   </p>
                 </div>
                 <div className='col-span-2 md:col-span-1'>
                   <p className='flex-column text-gold-dark text-center md:text-left'>
                     <span className='block text-base'>{t('contact.saturday')}</span>
-                    <span className='block text-xl md:text-3xl font-semibold'>8AM a 1PM</span>
+                    <span className='block text-xl md:text-3xl font-semibold'>{t('contact.saturdayHours')}</span>
                   </p>
                 </div>
               </div>

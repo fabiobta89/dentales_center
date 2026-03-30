@@ -21,8 +21,10 @@
   "services.cleaning": "Cleaning",
   "services.restorations": "Restorations",
   "services.smileDesign": "Smile Design",
+  "services.crowns": "Crowns",
+  "services.implants": "Implants",
   "services.orthodontics": "Orthodontics",
-  "services.prosthetics": "Dental Prosthetics",
+  "services.prosthetics": "Removable Prosthetics",
 
   "aboutUs.heading": "Over 15 years transforming smiles in Barranquilla",
   "aboutUs.paragraph": "We are a dental office and laboratory with a human and technological approach. Our team is composed of specialists in general dentistry, orthodontics, and cosmetic dentistry who accompany you from the first appointment to the final result.",
@@ -48,6 +50,8 @@
   "contact.hours": "Hours:",
   "contact.weekdays": "Monday to Friday",
   "contact.saturday": "Saturdays",
+  "contact.weekdaysHours": "8AM to 5PM",
+  "contact.saturdayHours": "8AM to 5PM",
   "contact.formHeading": "Book your evaluation appointment now!",
 
   "footer.copyright": "\u00a9 Dentales Center 2026. All Rights Reserved",
