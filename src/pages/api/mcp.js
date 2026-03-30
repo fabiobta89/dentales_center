@@ -2,7 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
-import { getAvailabilityForRange } from '@/lib/dentalink';
+import { getAvailabilityForRange, createAppointmentInDentalink, getMotivosDeAtencion, getOrCreatePatient } from '@/lib/dentalink';
 
 const ALTERNATIVES_DAYS = 13;
 const MAX_ALTERNATIVE_DAYS = 3;
@@ -95,13 +95,56 @@ function createMcpServer() {
   );
 
   server.tool(
+    'get_motivos_de_atencion',
+    {},
+    {
+      description: 'Returns the list of available attention reasons (motivos de atencion) for appointments, including their IDs, names, and duration.',
+    },
+    async () => {
+      try {
+        const motivos = await getMotivosDeAtencion();
+        return {
+          content: [{ type: 'text', text: JSON.stringify({ motivos }) }],
+        };
+      } catch (err) {
+        return { content: [{ type: 'text', text: JSON.stringify({ error: err.message }) }], isError: true };
+      }
+    }
+  );
+
+  server.tool(
+    'get_or_create_patient',
+    {
+      phone: z.string().describe("Patient's phone number"),
+      name: z.string().describe("Patient's full name"),
+      id: z.string().optional().describe("Patient's Colombian national ID (cedula de ciudadania)"),
+      email: z.string().optional().describe("Patient's email address"),
+    },
+    {
+      description: 'Searches for a patient by phone, id (cedula), or email. If not found, creates a new patient. Returns the patient ID and details.',
+    },
+    async ({ phone, name, id, email }) => {
+      try {
+        const patient = await getOrCreatePatient({ phone, name, id, email });
+        return {
+          content: [{ type: 'text', text: JSON.stringify({ patient }) }],
+        };
+      } catch (err) {
+        return { content: [{ type: 'text', text: JSON.stringify({ error: err.message }) }], isError: true };
+      }
+    }
+  );
+
+  server.tool(
     'book_appointment',
     {
-      name: z.string().describe("Patient's full name"),
-      email: z.string().describe("Patient's email address"),
       phone: z.string().describe("Patient's phone number"),
+      name: z.string().optional().describe("Patient's full name"),
+      id: z.string().optional().describe("Patient's Colombian national ID (cedula de ciudadania)"),
+      email: z.string().optional().describe("Patient's email address"),
       date: z.string().describe('Appointment date in YYYY-MM-DD format'),
       time: z.string().describe('Appointment time in HH:MM 24-hour format'),
+      motivo_atencion_id: z.number().optional().describe('Attention reason ID from get_motivos_de_atencion (e.g. 1 for Valoracion general, 3 for Resina)'),
       message: z.string().optional().describe('Optional notes or reason for the visit'),
     },
     {
@@ -110,7 +153,7 @@ function createMcpServer() {
         'The slot availability is verified in real-time before the record is created. ' +
         'If the slot was just taken, alternative available days are returned instead.',
     },
-    async ({ name, email, phone, date, time, message }) => {
+    async ({ phone, name, id, email, date, time, motivo_atencion_id, message }) => {
       const today = new Date().toISOString().slice(0, 10);
       if (date < today) {
         return { content: [{ type: 'text', text: JSON.stringify({ error: 'date cannot be in the past' }) }], isError: true };
@@ -135,12 +178,36 @@ function createMcpServer() {
 
       const { data, error } = await supabase
         .from('appointments')
-        .insert({ name, email, phone, message: message || null, date, time, status: 'pending' })
+        .insert({ name, email, phone, message: message || null, date, time, status: 'pending', dentalink_id: null })
         .select()
         .single();
 
       if (error) {
         return { content: [{ type: 'text', text: JSON.stringify({ error: 'Error saving appointment' }) }], isError: true };
+      }
+
+      // Get or create patient in Dentalink
+      let patientId;
+      try {
+        const patient = await getOrCreatePatient({ phone, name, id, email });
+        patientId = patient.id;
+      } catch (err) {
+        console.error('[mcp] getOrCreatePatient error:', err.message);
+      }
+
+      // Create appointment in Dentalink software
+      try {
+        const dentalinkData = await createAppointmentInDentalink({ date, time, motivo_atencion_id, paciente_id: patientId });
+        // Update status to synced and save dentalink_id
+        await supabase
+          .from('appointments')
+          .update({ status: 'synced', dentalink_id: dentalinkData.id })
+          .eq('id', data.id);
+        data.status = 'synced';
+        data.dentalink_id = dentalinkData.id;
+      } catch (err) {
+        console.error('[mcp] Dentalink error:', err.message);
+        // Don't fail - appointment is saved in Supabase as pending
       }
 
       return { content: [{ type: 'text', text: JSON.stringify({ appointment: data }) }] };

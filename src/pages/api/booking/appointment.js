@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { getAvailabilityForRange } from '@/lib/dentalink';
+import { getAvailabilityForRange, createAppointmentInDentalink } from '@/lib/dentalink';
 import { withApiKey } from '@/lib/withApiKey';
 
 /**
@@ -65,6 +65,7 @@ export default withApiKey(async function handler(req, res) {
         date,
         time,
         status: 'pending',
+        dentalink_id: null,
       })
       .select()
       .single();
@@ -72,6 +73,22 @@ export default withApiKey(async function handler(req, res) {
     if (error) {
       console.error('[booking/appointment] Supabase error:', error);
       return res.status(500).json({ error: 'Error saving appointment' });
+    }
+
+    // Create appointment in Dentalink software
+    let dentalinkData = null;
+    try {
+      dentalinkData = await createAppointmentInDentalink({ date, time });
+      // Update status to synced and save dentalink_id
+      await supabase
+        .from('appointments')
+        .update({ status: 'synced', dentalink_id: dentalinkData.id })
+        .eq('id', data.id);
+      data.status = 'synced';
+      data.dentalink_id = dentalinkData.id;
+    } catch (err) {
+      console.error('[booking/appointment] Dentalink error:', err.message);
+      // Don't fail - appointment is saved in Supabase as pending
     }
 
     return res.status(201).json({ appointment: data });

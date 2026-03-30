@@ -7,10 +7,11 @@ import AdminNav from '@/components/main/AdminNav';
 import ConfirmModal from '@/components/main/ConfirmModal';
 
 const PER_PAGE = 30;
-const STATUSES = ['pending', 'confirmed', 'completed', 'cancelled', 'no_show'];
+const STATUSES = ['pending', 'synced', 'confirmed', 'completed', 'cancelled', 'no_show'];
 
 const STATUS_COLORS = {
   pending: 'bg-yellow-100 text-yellow-800',
+  synced: 'bg-purple-100 text-purple-800',
   confirmed: 'bg-blue-100 text-blue-800',
   completed: 'bg-green-100 text-green-800',
   cancelled: 'bg-red-100 text-red-800',
@@ -19,6 +20,7 @@ const STATUS_COLORS = {
 
 const STATUS_DOT_COLORS = {
   pending: 'bg-yellow-400',
+  synced: 'bg-purple-400',
   confirmed: 'bg-blue-400',
   completed: 'bg-green-400',
   cancelled: 'bg-red-400',
@@ -208,6 +210,7 @@ export default function Appointments() {
                   <th className="px-4 py-3 font-semibold">{t('admin.appointments.phone')}</th>
                   <th className="px-4 py-3 font-semibold">{t('admin.appointments.reason')}</th>
                   <th className="px-4 py-3 font-semibold">{t('admin.appointments.status')}</th>
+                  <th className="px-4 py-3 font-semibold">Dentalink</th>
                   <th className="px-4 py-3 font-semibold"></th>
                 </tr>
               </thead>
@@ -230,6 +233,13 @@ export default function Appointments() {
                           <option key={s} value={s}>{t(`status.${s}`)}</option>
                         ))}
                       </select>
+                    </td>
+                    <td className="px-4 py-3 text-sm">
+                      {apt.dentalink_id ? (
+                        <span className="text-green-600 font-semibold">#{apt.dentalink_id}</span>
+                      ) : (
+                        <span className="text-gray-400">—</span>
+                      )}
                     </td>
                     <td className="px-4 py-3">
                       <button

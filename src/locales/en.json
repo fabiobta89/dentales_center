@@ -123,11 +123,13 @@
   "admin.appointments.of": "of",
 
   "status.pending": "Pending",
+  "status.synced": "Synced",
   "status.confirmed": "Confirmed",
   "status.completed": "Completed",
   "status.cancelled": "Cancelled",
   "status.no_show": "No Show",
   "status.desc.pending": "The appointment was booked and is awaiting confirmation.",
+  "status.desc.synced": "The appointment was successfully synced to Dentalink software.",
   "status.desc.confirmed": "The appointment has been confirmed by the patient or the clinic.",
   "status.desc.completed": "The appointment was completed successfully.",
   "status.desc.cancelled": "The appointment was cancelled by the patient or the clinic.",

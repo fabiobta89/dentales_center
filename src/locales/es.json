@@ -123,11 +123,13 @@
   "admin.appointments.of": "de",
 
   "status.pending": "Pendiente",
+  "status.synced": "Sincronizada",
   "status.confirmed": "Confirmada",
   "status.completed": "Completada",
   "status.cancelled": "Cancelada",
   "status.no_show": "No asisti\u00f3",
   "status.desc.pending": "La cita fue agendada y est\u00e1 a la espera de confirmaci\u00f3n.",
+  "status.desc.synced": "La cita fue sincronizada exitosamente al software Dentalink.",
   "status.desc.confirmed": "La cita ha sido confirmada por el paciente o la cl\u00ednica.",
   "status.desc.completed": "La cita se realiz\u00f3 exitosamente.",
   "status.desc.cancelled": "La cita fue cancelada por el paciente o la cl\u00ednica.",
