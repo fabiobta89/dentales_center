@@ -4,7 +4,7 @@ import { CiViewList } from "react-icons/ci";
 import { LiaTeethOpenSolid } from "react-icons/lia";
 import Logo from "@/components/main/Logo";
 import Image from 'next/image';
-import mouth_image from '@/images/smileOne.png';
+import mouth_image from '@/images/smile2.jpeg';
 import mouth_image2 from '@/images/smileTwo.png';
 import team_image from '@/images/team.jpeg';
 import icon_image from '@/images/icon@2x.png';
@@ -31,7 +31,7 @@ import LanguageToggle from '@/components/main/LanguageToggle';
 
 const SERVICE_IMAGES = [
   { src: mouth_image, alt: 'Dentales Center tratamientos' },
-  { src: mouth_image2, alt: 'Dentales Center tratamientos' },
+  // { src: mouth_image2, alt: 'Dentales Center tratamientos' },
 ];
 
 const TESTIMONIALS = [
