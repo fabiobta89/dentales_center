@@ -13,4 +13,7 @@
 
 .banner-image{
     background-image: url('/images/girl.png');
+    background-position-x: right;
+    background-position-y: -30px;
+    background-size: 50%;
 }
