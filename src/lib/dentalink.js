@@ -127,6 +127,65 @@ export async function getMotivosDeAtencion() {
 }
 
 /**
+ * Normalizes a phone number to try different formats for search.
+ * Strips country codes like +57, 57, +1, 1 and tries variations.
+ */
+function getPhoneVariations(phone) {
+  if (!phone) return [];
+
+  const variations = new Set();
+
+  // Clean the phone - remove spaces, dashes, parentheses
+  let cleaned = phone.replace(/[\s\-\(\)]/g, '');
+
+  // If starts with +, remove it
+  if (cleaned.startsWith('+')) {
+    cleaned = cleaned.substring(1);
+  }
+
+  // Add original with + prefix
+  variations.add('+' + cleaned);
+
+  // If starts with 57 (Colombia code), try without
+  if (cleaned.startsWith('57')) {
+    const without57 = cleaned.substring(2);
+    variations.add(without57);
+    variations.add('+57' + without57);
+    variations.add('57' + without57);
+  }
+
+  // If it's a mobile number starting with 3 (Colombia), try adding +57
+  if (/^3\d{9}$/.test(cleaned)) {
+    variations.add('+57' + cleaned);
+    variations.add('57' + cleaned);
+  }
+
+  // If starts with 1 (US/Colombia), try adding +57 or 57
+  if (cleaned.startsWith('1') && cleaned.length === 10) {
+    variations.add('+57' + cleaned.substring(1));
+    variations.add('57' + cleaned.substring(1));
+  }
+
+  // If it's a short number (10 digits without country code), try all Colombian formats
+  if (/^\d{10}$/.test(cleaned)) {
+    variations.add('+57' + cleaned);
+    variations.add('57' + cleaned);
+  }
+
+  // Try just the digits without any country code
+  const digitsOnly = cleaned.replace(/\D/g, '');
+  variations.add(digitsOnly);
+
+  // If 10 digits starting with 3, likely Colombian mobile
+  if (/^3\d{9}$/.test(digitsOnly)) {
+    variations.add('+57' + digitsOnly);
+    variations.add('57' + digitsOnly);
+  }
+
+  return [...variations];
+}
+
+/**
  * Searches for a patient by phone, id (cedula), or email. If not found, creates a new patient.
  * @param {Object} params - { phone, name, id?, email? }
  * @returns {Promise<Object>} The patient data from Dentalink with id
@@ -141,11 +200,19 @@ export async function getOrCreatePatient({ phone, name, id, email }) {
   // Try to find by phone first (required), then id, then email
   const searchPhone = async () => {
     if (!phone) return null;
-    const url = `${DENTALINK_URL}/pacientes?q=${encodeURIComponent(JSON.stringify({ celular: { eq: phone } }))}`;
-    const response = await fetch(url, { headers: { Authorization: `Token ${token}` } });
-    if (!response.ok) return null;
-    const data = await response.json();
-    return data.data?.length > 0 ? data.data[0] : null;
+
+    const phoneVariations = getPhoneVariations(phone);
+
+    for (const phoneVariant of phoneVariations) {
+      const url = `${DENTALINK_URL}/pacientes?q=${encodeURIComponent(JSON.stringify({ celular: { eq: phoneVariant } }))}`;
+      const response = await fetch(url, { headers: { Authorization: `Token ${token}` } });
+      if (!response.ok) continue;
+      const data = await response.json();
+      if (data.data?.length > 0) {
+        return data.data[0];
+      }
+    }
+    return null;
   };
 
   const searchId = async () => {

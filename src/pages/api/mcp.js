@@ -139,7 +139,7 @@ function createMcpServer() {
     'book_appointment',
     {
       phone: z.string().describe("Patient's phone number"),
-      name: z.string().optional().describe("Patient's full name"),
+      name: z.string().describe("Patient's full name"),
       id: z.string().optional().describe("Patient's Colombian national ID (cedula de ciudadania)"),
       email: z.string().optional().describe("Patient's email address"),
       date: z.string().describe('Appointment date in YYYY-MM-DD format'),
@@ -151,7 +151,8 @@ function createMcpServer() {
       description:
         'Book an appointment at the dental clinic. ' +
         'The slot availability is verified in real-time before the record is created. ' +
-        'If the slot was just taken, alternative available days are returned instead.',
+        'Returns appointment confirmation data including name, date, time, and status. ' +
+        'You MUST show this confirmation data to the patient in a confirmation block.',
     },
     async ({ phone, name, id, email, date, time, motivo_atencion_id, message }) => {
       const today = new Date().toISOString().slice(0, 10);
