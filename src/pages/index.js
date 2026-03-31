@@ -462,7 +462,7 @@ export default function Home() {
                 height={32}
                 priority
               />
-              <p className='text-base text-white py-4 lg:py-0'>{t('footer.copyright')}</p>
+              <p className='text-base text-white py-4 lg:py-0 text-center lg:text-left'>{t('footer.copyright')}</p>
             </div>
             <div className='flex justify-center'>
               <ul className='flex'>
