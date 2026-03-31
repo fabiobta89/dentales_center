@@ -4,13 +4,9 @@ import { CiViewList } from "react-icons/ci";
 import { LiaTeethOpenSolid } from "react-icons/lia";
 import Logo from "@/components/main/Logo";
 import Image from 'next/image';
-import mouth_image from '@/images/smile2.jpeg';
-import mouth_image2 from '@/images/smileTwo.png';
+import mouth_image from '@/images/smileOne.jpeg';
 import team_image from '@/images/team.jpeg';
 import icon_image from '@/images/icon@2x.png';
-
-import doctor_image from '@/images/doctor.png';
-import customer_image from '@/images/customer.png';
 import test1_image from '@/images/test1.jpeg';
 import test2_image from '@/images/test2.jpeg';
 import test3_image from '@/images/test3.jpeg';
@@ -58,6 +54,12 @@ const TESTIMONIALS = [
     name: 'Wilson',
     quote_es: 'Increíble el trabajo, cuidaron cada detalle.',
     quote_en: 'I totally recommend Dentales Center, they changed my smile and my life.',
+  },
+  {
+    photo: test4_image,
+    name: 'Isaias',
+    quote_es: 'Estoy demasiado feliz con mi cambio, valió totalmente la pena.',
+    quote_en: "I'm so happy with my transformation, it was totally worth it.",
   },
   {
     photo: test6_image,
