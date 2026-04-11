@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { useLanguage } from '@/context/LanguageContext';
+import { isValidPhone, normalizeToE164 } from '@/lib/phone';
 import StepCustomer from './StepCustomer';
 import StepDateTime from './StepDateTime';
 import StepConfirmation from './StepConfirmation';
@@ -13,7 +14,7 @@ export default function AppointmentForm() {
   const customerSchema = Yup.object().shape({
     name: Yup.string().min(2, t('form.validation.tooShort')).max(70, t('form.validation.tooLong')).required(t('form.validation.required')),
     email: Yup.string().email(t('form.validation.invalidEmail')).required(t('form.validation.required')),
-    phone: Yup.string().min(7, t('form.validation.tooShort')).required(t('form.validation.required')),
+    phone: Yup.string().required(t('form.validation.required')).test('phone', t('form.validation.invalidPhone'), isValidPhone),
     message: Yup.string(),
   });
 
@@ -31,7 +32,8 @@ export default function AppointmentForm() {
   const [error, setError] = useState(null);
 
   async function handleCustomerSubmit(values) {
-    setFormData(prev => ({ ...prev, ...values }));
+    const phone = normalizeToE164(values.phone);
+    setFormData(prev => ({ ...prev, ...values, phone }));
     setStep(1);
   }
 

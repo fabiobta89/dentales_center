@@ -1,4 +1,5 @@
 import { useLanguage } from '@/context/LanguageContext';
+import { formatDisplay } from '@/lib/phone';
 
 export default function StepConfirmation({ formData, onConfirm, onBack, submitting, error }) {
   const { t, locale } = useLanguage();
@@ -26,7 +27,7 @@ export default function StepConfirmation({ formData, onConfirm, onBack, submitti
         </div>
         <div className="flex justify-between">
           <span className="text-xs text-gold-dark/70">{t('form.confirm.phone')}</span>
-          <span className="text-sm font-semibold text-gold-dark">{formData.phone}</span>
+          <span className="text-sm font-semibold text-gold-dark">{formatDisplay(formData.phone)}</span>
         </div>
         {formData.message && (
           <div className="flex justify-between">

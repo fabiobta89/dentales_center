@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { getAvailabilityForRange, createAppointmentInDentalink } from '@/lib/dentalink';
 import { withApiKey } from '@/lib/withApiKey';
+import { normalizeToE164 } from '@/lib/phone';
 
 /**
  * POST /api/booking/appointment
@@ -24,6 +25,13 @@ export default withApiKey(async function handler(req, res) {
 
   if (!name || !email || !phone || !date || !time) {
     return res.status(400).json({ error: 'name, email, phone, date, and time are required' });
+  }
+
+  let normalizedPhone;
+  try {
+    normalizedPhone = normalizeToE164(phone);
+  } catch {
+    return res.status(400).json({ error: 'Invalid phone number' });
   }
 
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
@@ -60,7 +68,7 @@ export default withApiKey(async function handler(req, res) {
       .insert({
         name,
         email,
-        phone,
+        phone: normalizedPhone,
         message: message || null,
         date,
         time,

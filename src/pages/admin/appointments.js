@@ -5,6 +5,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { createClient } from '@/lib/supabase';
 import AdminNav from '@/components/main/AdminNav';
 import ConfirmModal from '@/components/main/ConfirmModal';
+import { formatDisplay } from '@/lib/phone';
 
 const PER_PAGE = 30;
 const STATUSES = ['pending', 'synced', 'confirmed', 'completed', 'cancelled', 'no_show'];
@@ -167,7 +168,7 @@ export default function Appointments() {
                   </div>
                   <div>
                     <span className="text-xs text-gold-dark/60 block">{t('admin.appointments.phone')}</span>
-                    <span className="text-gold-dark">{apt.phone}</span>
+                    <span className="text-gold-dark">{formatDisplay(apt.phone)}</span>
                   </div>
                 </div>
                 {apt.message && (
@@ -221,7 +222,7 @@ export default function Appointments() {
                     <td className="px-4 py-3 text-sm text-gold-dark font-semibold">{apt.time}</td>
                     <td className="px-4 py-3 text-sm text-gold-dark">{apt.name}</td>
                     <td className="px-4 py-3 text-sm text-gold-dark">{apt.email}</td>
-                    <td className="px-4 py-3 text-sm text-gold-dark">{apt.phone}</td>
+                    <td className="px-4 py-3 text-sm text-gold-dark">{formatDisplay(apt.phone)}</td>
                     <td className="px-4 py-3 text-sm text-gold-dark">{apt.message || '—'}</td>
                     <td className="px-4 py-3">
                       <select

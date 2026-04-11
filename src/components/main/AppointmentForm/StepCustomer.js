@@ -40,6 +40,8 @@ export default function StepCustomer({ initialValues, validationSchema, onSubmit
             className="flex w-full border-2 border-gold-light rounded-md h-12 outline-none px-4"
             name="phone"
             id="phone"
+            type="tel"
+            placeholder={t('form.phone.placeholder')}
           />
           <span className="flex text-red-600 text-xs">
             <ErrorMessage name="phone" />

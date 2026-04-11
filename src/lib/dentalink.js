@@ -1,3 +1,5 @@
+import { normalizeToE164 } from './phone';
+
 const DENTALINK_URL = process.env.DENTALINK_URL || 'https://api.dentalink.healthatom.com/api/v1';
 
 /**
@@ -127,60 +129,28 @@ export async function getMotivosDeAtencion() {
 }
 
 /**
- * Normalizes a phone number to try different formats for search.
- * Strips country codes like +57, 57, +1, 1 and tries variations.
+ * Returns search variations for a phone number to match existing Dentalink records.
+ * New records are stored in E.164, but legacy data may use other formats,
+ * so we still search a small set of canonical variants.
  */
 function getPhoneVariations(phone) {
   if (!phone) return [];
 
   const variations = new Set();
 
-  // Clean the phone - remove spaces, dashes, parentheses
-  let cleaned = phone.replace(/[\s\-\(\)]/g, '');
-
-  // If starts with +, remove it
-  if (cleaned.startsWith('+')) {
-    cleaned = cleaned.substring(1);
+  try {
+    const e164 = normalizeToE164(phone);          // e.g. +573246044584
+    variations.add(e164);                          // +573246044584
+    variations.add(e164.slice(1));                 // 573246044584 (no +)
+    const local = e164.replace(/^\+57/, '');
+    variations.add(local);                         // 3246044584 (no country code)
+  } catch {
+    // normalization failed — fall back to cleaned raw input only
   }
 
-  // Add original with + prefix
-  variations.add('+' + cleaned);
-
-  // If starts with 57 (Colombia code), try without
-  if (cleaned.startsWith('57')) {
-    const without57 = cleaned.substring(2);
-    variations.add(without57);
-    variations.add('+57' + without57);
-    variations.add('57' + without57);
-  }
-
-  // If it's a mobile number starting with 3 (Colombia), try adding +57
-  if (/^3\d{9}$/.test(cleaned)) {
-    variations.add('+57' + cleaned);
-    variations.add('57' + cleaned);
-  }
-
-  // If starts with 1 (US/Colombia), try adding +57 or 57
-  if (cleaned.startsWith('1') && cleaned.length === 10) {
-    variations.add('+57' + cleaned.substring(1));
-    variations.add('57' + cleaned.substring(1));
-  }
-
-  // If it's a short number (10 digits without country code), try all Colombian formats
-  if (/^\d{10}$/.test(cleaned)) {
-    variations.add('+57' + cleaned);
-    variations.add('57' + cleaned);
-  }
-
-  // Try just the digits without any country code
-  const digitsOnly = cleaned.replace(/\D/g, '');
-  variations.add(digitsOnly);
-
-  // If 10 digits starting with 3, likely Colombian mobile
-  if (/^3\d{9}$/.test(digitsOnly)) {
-    variations.add('+57' + digitsOnly);
-    variations.add('57' + digitsOnly);
-  }
+  // Always include the cleaned raw value for any legacy data
+  const cleaned = phone.replace(/[\s\-\(\)\.]/g, '').replace(/^\+/, '');
+  variations.add(cleaned);
 
   return [...variations];
 }
@@ -244,7 +214,7 @@ export async function getOrCreatePatient({ phone, name, id, email }) {
         apellidos: nameParts.slice(1).join(' '),
         id: id || '',
         email: email || '',
-        celular: phone,
+        celular: normalizeToE164(phone),
         habilitado: 1,
       }),
     });

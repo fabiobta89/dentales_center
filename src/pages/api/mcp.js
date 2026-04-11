@@ -3,6 +3,7 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { getAvailabilityForRange, createAppointmentInDentalink, getMotivosDeAtencion, getOrCreatePatient } from '@/lib/dentalink';
+import { normalizeToE164 } from '@/lib/phone';
 
 const ALTERNATIVES_DAYS = 13;
 const MAX_ALTERNATIVE_DAYS = 3;
@@ -125,7 +126,8 @@ function createMcpServer() {
     },
     async ({ phone, name, id, email }) => {
       try {
-        const patient = await getOrCreatePatient({ phone, name, id, email });
+        const normalizedPhone = normalizeToE164(phone);
+        const patient = await getOrCreatePatient({ phone: normalizedPhone, name, id, email });
         return {
           content: [{ type: 'text', text: JSON.stringify({ patient }) }],
         };
@@ -155,6 +157,13 @@ function createMcpServer() {
         'You MUST show this confirmation data to the patient in a confirmation block.',
     },
     async ({ phone, name, id, email, date, time, motivo_atencion_id, message }) => {
+      let normalizedPhone = phone;
+      try {
+        normalizedPhone = normalizeToE164(phone);
+      } catch {
+        return { content: [{ type: 'text', text: JSON.stringify({ error: 'Invalid phone number' }) }], isError: true };
+      }
+
       const today = new Date().toISOString().slice(0, 10);
       if (date < today) {
         return { content: [{ type: 'text', text: JSON.stringify({ error: 'date cannot be in the past' }) }], isError: true };
@@ -179,7 +188,7 @@ function createMcpServer() {
 
       const { data, error } = await supabase
         .from('appointments')
-        .insert({ name, email, phone, message: message || null, date, time, status: 'pending', dentalink_id: null })
+        .insert({ name, email, phone: normalizedPhone, message: message || null, date, time, status: 'pending', dentalink_id: null })
         .select()
         .single();
 
@@ -190,7 +199,7 @@ function createMcpServer() {
       // Get or create patient in Dentalink
       let patientId;
       try {
-        const patient = await getOrCreatePatient({ phone, name, id, email });
+        const patient = await getOrCreatePatient({ phone: normalizedPhone, name, id, email });
         patientId = patient.id;
       } catch (err) {
         console.error('[mcp] getOrCreatePatient error:', err.message);

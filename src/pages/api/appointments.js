@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { getOrCreatePatient, createAppointmentInDentalink } from '@/lib/dentalink';
+import { normalizeToE164 } from '@/lib/phone';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -12,6 +13,13 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Faltan campos requeridos' });
   }
 
+  let normalizedPhone;
+  try {
+    normalizedPhone = normalizeToE164(phone);
+  } catch {
+    return res.status(400).json({ error: 'Número de teléfono inválido' });
+  }
+
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -22,7 +30,7 @@ export default async function handler(req, res) {
     .insert({
       name,
       email: email || null,
-      phone,
+      phone: normalizedPhone,
       message: message || null,
       date,
       time,
@@ -40,7 +48,7 @@ export default async function handler(req, res) {
   // Sync with Dentalink
   let patientId;
   try {
-    const patient = await getOrCreatePatient({ phone, name, email });
+    const patient = await getOrCreatePatient({ phone: normalizedPhone, name, email });
     patientId = patient.id;
   } catch (err) {
     console.error('[appointments] getOrCreatePatient error:', err.message);
