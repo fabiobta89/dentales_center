@@ -56,12 +56,18 @@ export default async function handler(req, res) {
 
   try {
     const dentalinkData = await createAppointmentInDentalink({ date, time, paciente_id: patientId });
-    await supabase
+
+    const { error: updateError } = await supabase
       .from('appointments')
       .update({ status: 'synced', dentalink_id: dentalinkData.id })
       .eq('id', data.id);
-    data.status = 'synced';
-    data.dentalink_id = dentalinkData.id;
+
+    if (updateError) {
+      console.error('[appointments] Supabase update error:', updateError);
+    } else {
+      data.status = 'synced';
+      data.dentalink_id = dentalinkData.id;
+    }
   } catch (err) {
     console.error('[appointments] Dentalink error:', err.message);
   }

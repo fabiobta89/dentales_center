@@ -87,13 +87,18 @@ export default withApiKey(async function handler(req, res) {
     let dentalinkData = null;
     try {
       dentalinkData = await createAppointmentInDentalink({ date, time });
-      // Update status to synced and save dentalink_id
-      await supabase
+
+      const { error: updateError } = await supabase
         .from('appointments')
         .update({ status: 'synced', dentalink_id: dentalinkData.id })
         .eq('id', data.id);
-      data.status = 'synced';
-      data.dentalink_id = dentalinkData.id;
+
+      if (updateError) {
+        console.error('[booking/appointment] Supabase update error:', updateError);
+      } else {
+        data.status = 'synced';
+        data.dentalink_id = dentalinkData.id;
+      }
     } catch (err) {
       console.error('[booking/appointment] Dentalink error:', err.message);
       // Don't fail - appointment is saved in Supabase as pending
